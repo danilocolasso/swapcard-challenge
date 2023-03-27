@@ -1,0 +1,63 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('email', ['action' => 'index']));
+$form->prepare();
+
+echo $this->doctype('HTML5');
+?>
+
+<html>
+<head>
+    <title>Simple Email Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center mb-4">Simple Email Application</h1>
+
+            <?php if ($this->flashMessenger()->hasSuccessMessages()): ?>
+                <div class="alert alert-success">
+                    <?php echo implode('<br>', $this->flashMessenger()->getSuccessMessages()) ?>
+                </div>
+            <?php endif; ?>
+
+            <?php echo $this->form()->openTag($form) ?>
+
+            <div class="row">
+                <div class="sm-12">
+                    <?php echo $this->formRow($form->get('name')) ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="sm-12">
+                    <?php echo $this->formRow($form->get('email')) ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="sm-12">
+                    <?php echo $this->formRow($form->get('phone')) ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="sm-12">
+                    <?php echo $this->formRow($form->get('content')) ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="sm-12">
+                    <?php echo $this->formSubmit($form->get('submit')) ?>
+                </div>
+            </div>
+
+            <?php echo $this->form()->closeTag() ?>
+        </div>
+    </div>
+</div>
+</body>
+</html>
