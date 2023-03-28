@@ -29,9 +29,6 @@
         "laminas/laminas-cli": "^1.8"
     },
     "autoload": {
-        "psr-4": {
-            "Email\\Entity\\": "module/Email/src/Entity/"
-        },
         "classmap": [
             "module/"
         ]

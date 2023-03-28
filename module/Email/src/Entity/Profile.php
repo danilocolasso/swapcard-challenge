@@ -5,7 +5,7 @@ namespace Email\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ProfileRepository::class)
+ * @ORM\Entity(repositoryClass="Email\Repository\ProfileRepository")
  * @ORM\Table(name="profiles")
  */
 class Profile

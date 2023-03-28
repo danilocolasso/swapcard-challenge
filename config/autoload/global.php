@@ -36,16 +36,38 @@ function getEntityPaths($moduleRoot)
 }
 
 return [
+    'db' => [
+        'driver' => 'Pdo',
+        'dsn'    => 'mysql:dbname=mydatabase;host=192.168.80.2;charset=utf8',
+        'username' => 'myuser',
+        'password' => 'mypassword',
+    ],
     'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => \Doctrine\DBAL\Driver\PDO\MySQL\Driver::class,
+                'params' => [
+                    'host' => '192.168.80.2',
+                    'port' => '3306',
+                    'user' => 'myuser',
+                    'password' => 'mypassword',
+                    'dbname' => 'mydatabase',
+                    'charset' => 'utf8',
+                ],
+            ],
+        ],
         'driver' => [
             'default_driver' => [
-                'class' => AnnotationDriver::class,
+                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
-                'paths' => [__DIR__ . '/../../module/Email/src/Entity/']
+                'paths' => [
+                    __DIR__ . '/../../module/Email/src/Entity', // replace with the path to your entity classes
+                ],
             ],
             'orm_default' => [
                 'drivers' => [
                     'default_driver' => 'annotation_driver',
+                    'Email\Entity' => 'default_driver',
                 ],
             ],
             'annotation_driver' => [

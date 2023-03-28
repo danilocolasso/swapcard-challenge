@@ -2,8 +2,9 @@
 
 namespace Email;
 
-use Email\Controller\EmailController;
-use Email\Controller\EmailControllerFactory;
+use Doctrine\ORM\EntityManagerInterface;
+use Email\Repository\ProfileRepository;
+use Email\Service\ProfileService;
 use Laminas\Router\Http\Segment;
 
 return [
@@ -23,7 +24,11 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            EmailController::class => EmailControllerFactory::class,
+            Controller\EmailController::class =>
+                fn ($container) => new Controller\EmailController($container->get(ProfileService::class),
+            ),
+            ProfileService::class =>
+                fn ($container) => new ProfileService($container->get(EntityManagerInterface::class))
         ],
     ],
     'view_manager' => [
