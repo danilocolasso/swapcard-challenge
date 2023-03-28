@@ -16,43 +16,49 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 $moduleRoot = __DIR__ . '/../../module';
 
-function getModules($moduleRoot)
-{
-    $modules = scandir($moduleRoot);
+if (!function_exists('getModules')) {
+    function getModules($moduleRoot)
+    {
+        $modules = scandir($moduleRoot);
 
-    foreach ($modules as $module) {
-        if ($module === '.' || $module === '..') {
-            continue;
-        }
+        foreach ($modules as $module) {
+            if ($module === '.' || $module === '..') {
+                continue;
+            }
 
-        $entityPath = $moduleRoot . '/' . $module . '/src/Entity';
+            $entityPath = $moduleRoot . '/' . $module . '/src/Entity';
 
-        if (is_dir($entityPath)) {
-            yield $module;
+            if (is_dir($entityPath)) {
+                yield $module;
+            }
         }
     }
 }
 
-function getEntityPaths($moduleRoot)
-{
-    $entityPaths = [];
+if (!function_exists('getEntityPaths')) {
+    function getEntityPaths($moduleRoot)
+    {
+        $entityPaths = [];
 
-    foreach (getModules($moduleRoot) as $module) {
-        $entityPaths[$module] = $moduleRoot . '/' . $module . '/src/Entity';;
+        foreach (getModules($moduleRoot) as $module) {
+            $entityPaths[$module] = $moduleRoot . '/' . $module . '/src/Entity';;
+        }
+
+        return $entityPaths;
     }
-
-    return $entityPaths;
 }
 
-function getEntityDrivers($moduleRoot)
-{
-    $entityDrivers = [];
+if (!function_exists('getEntityDrivers')) {
+    function getEntityDrivers($moduleRoot)
+    {
+        $entityDrivers = [];
 
-    foreach (getModules($moduleRoot) as $module) {
-        $entityDrivers[$module . '\Entity'] = 'default_driver';
+        foreach (getModules($moduleRoot) as $module) {
+            $entityDrivers[$module . '\Entity'] = 'default_driver';
+        }
+
+        return $entityDrivers;
     }
-
-    return $entityDrivers;
 }
 
 return [

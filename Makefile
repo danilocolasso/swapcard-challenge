@@ -15,11 +15,8 @@ up:
 down:
 	docker-compose down -v
 
-ps:
-	docker-compose ps
-
-logs:
-	docker-compose logs -f
+tests:
+	docker-compose exec app ./vendor/bin/phpunit
 
 bash:
 	docker-compose exec app sh
