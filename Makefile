@@ -2,7 +2,7 @@ build:
 	docker-compose build
 	${MAKE} up
 	docker-compose exec app composer install
-	sleep 5 # To give the database service enough time to fully start up and be ready to accept connections
+	sleep 10 # To give the database service enough time to fully start up and be ready to accept connections
 	${MAKE} migrate
 
 migrate:

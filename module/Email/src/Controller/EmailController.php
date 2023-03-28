@@ -19,10 +19,7 @@ class EmailController extends AbstractActionController
     public function indexAction()
     {
         $form = new ProfileForm();
-
         $request = $this->getRequest();
-        $form->setAttribute('action', $this->url('email', ['action' => 'index']));
-        $form->prepare();
 
         if ($request->isPost()) {
             $form->setData(($request->getPost()));

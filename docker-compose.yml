@@ -4,13 +4,8 @@ services:
   app:
     build:
       context: .
-    environment:
-      - DB_CONNECTION=${DB_CONNECTION}
-      - DB_HOST=${DB_HOST}
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_CHARSET=${DB_CHARSET}
+    env_file:
+      - .env
     working_dir: /var/www
     volumes:
       - .:/var/www/

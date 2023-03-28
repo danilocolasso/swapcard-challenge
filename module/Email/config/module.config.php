@@ -3,6 +3,7 @@
 namespace Email;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Email\Entity\Profile;
 use Email\Service\ProfileService;
 use Laminas\Router\Http\Segment;
 
@@ -27,7 +28,10 @@ return [
                 fn ($container) => new Controller\EmailController($container->get(ProfileService::class),
             ),
             ProfileService::class =>
-                fn ($container) => new ProfileService($container->get(EntityManagerInterface::class))
+//                fn ($container) => new ProfileService($container->get(EntityManagerInterface::class))
+                fn ($container) => new ProfileService(
+                    $container->get(EntityManagerInterface::class)->getRepository(Profile::class)
+                )
         ],
     ],
     'view_manager' => [

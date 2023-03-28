@@ -27,7 +27,8 @@
         "ext-pdo": "*",
         "doctrine/migrations": "^3.6",
         "laminas/laminas-cli": "^1.8",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "laminas/laminas-mail": "^2.22"
     },
     "autoload": {
         "classmap": [
