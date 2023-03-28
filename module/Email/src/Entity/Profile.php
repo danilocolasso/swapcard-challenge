@@ -2,11 +2,13 @@
 
 namespace Email\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Email\Repository\ProfileRepository")
  * @ORM\Table(name="profiles")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Profile
 {
@@ -31,6 +33,16 @@ class Profile
      * @ORM\Column(type="string")
      */
     protected string $phone;
+
+    /**
+     * @ORM\Column(type="datetime", name="created_at")
+     */
+    protected DateTime $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", name="updated_at")
+     */
+    protected DateTime $updatedAt;
 
     /**
      * @ORM\Column(type="text")
@@ -84,5 +96,33 @@ class Profile
     {
         $this->content = $content;
         return $this;
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new DateTime();
     }
 }

@@ -14,10 +14,12 @@
             <?php foreach ($profiles as $profile): ?>
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><?php echo $profile->getName() ?></h5>
-                        <h6 class="card-subtitle mb-2 text-muted"><?php echo $profile->getEmail() ?></h6>
-                        <p class="card-text mb-2"><?php echo $profile->getPhone() ?></p>
-                        <p class="card-text text-truncate"><?php echo $profile->getContent() ?></p>
+                        <h5 class="card-title">Name: <?php echo $profile->getName() ?></h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Email: <?php echo $profile->getEmail() ?></h6>
+                        <p class="card-text mb-2">Phone: <?php echo $profile->getPhone() ?></p>
+                        <p class="card-text text-truncate">Content: <?php echo $profile->getContent() ?></p>
+                        <span class="badge badge-dark">Created <?php echo $profile->getCreatedAt()->format('Y-m-d H:i:s') ?></span>
+                        <span class="badge badge-secondary">Updated <?php echo $profile->getUpdatedAt()->format('Y-m-d H:i:s') ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>
