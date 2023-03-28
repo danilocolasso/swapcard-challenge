@@ -38,7 +38,7 @@ function getEntityPaths($moduleRoot)
 return [
     'db' => [
         'driver' => 'Pdo',
-        'dsn'    => 'mysql:dbname=mydatabase;host=192.168.80.2;charset=utf8',
+        'dsn'    => 'mysql:dbname=mydatabase;host=db;charset=utf8',
         'username' => 'myuser',
         'password' => 'mypassword',
     ],
@@ -47,7 +47,7 @@ return [
             'orm_default' => [
                 'driverClass' => \Doctrine\DBAL\Driver\PDO\MySQL\Driver::class,
                 'params' => [
-                    'host' => '192.168.80.2',
+                    'host' => 'db',
                     'port' => '3306',
                     'user' => 'myuser',
                     'password' => 'mypassword',
