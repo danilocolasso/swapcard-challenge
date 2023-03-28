@@ -28,7 +28,7 @@ function getEntityPaths($moduleRoot)
 
         $entityPath = $moduleRoot . '/' . $module . '/src/Entity';
         if (is_dir($entityPath)) {
-            $entityPaths[] = $entityPath;
+            $entityPaths[$module . '\Entity'] = 'default_driver';
         }
     }
 
@@ -60,20 +60,11 @@ return [
             'default_driver' => [
                 'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
-                'paths' => [
-                    __DIR__ . '/../../module/Email/src/Entity', // replace with the path to your entity classes
-                ],
             ],
             'orm_default' => [
-                'drivers' => [
-                    'default_driver' => 'annotation_driver',
-                    'Email\Entity' => 'default_driver',
-                ],
-            ],
-            'annotation_driver' => [
-                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
-                'cache' => 'array',
-                'paths' => getEntityPaths($moduleRoot),
+                'drivers' => array_merge([
+                    'default_driver' => 'default_driver',
+                ], getEntityPaths($moduleRoot)),
             ],
         ],
         'entity_manager' => [
