@@ -79,6 +79,7 @@
         }
     },
     "require-dev": {
-        "laminas/laminas-test": "^4.7.0"
+        "laminas/laminas-test": "^4.7.0",
+        "phpunit/phpunit": "^10.0"
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Email\Service;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Email\Entity\Profile;
 use Service\MailService;
 
@@ -10,7 +10,7 @@ class ProfileService
 {
     private $profileRepository;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->profileRepository = $entityManager->getRepository(Profile::class);
     }
