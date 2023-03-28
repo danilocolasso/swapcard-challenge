@@ -12,6 +12,57 @@
  * file.
  */
 
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+
+$moduleRoot = __DIR__ . '/../../module';
+
+function getEntityPaths($moduleRoot)
+{
+    $entityPaths = [];
+    $modules = scandir($moduleRoot);
+
+    foreach ($modules as $module) {
+        if ($module === '.' || $module === '..') {
+            continue;
+        }
+
+        $entityPath = $moduleRoot . '/' . $module . '/src/Entity';
+        if (is_dir($entityPath)) {
+            $entityPaths[] = $entityPath;
+        }
+    }
+
+    return $entityPaths;
+}
+
 return [
-    // ...
+    'doctrine' => [
+        'driver' => [
+            'default_driver' => [
+                'class' => AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => [__DIR__ . '/../../module/Email/src/Entity/']
+            ],
+            'orm_default' => [
+                'drivers' => [
+                    'default_driver' => 'annotation_driver',
+                ],
+            ],
+            'annotation_driver' => [
+                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => getEntityPaths($moduleRoot),
+            ],
+        ],
+        'entity_manager' => [
+            'orm_default' => [
+                'connection' => 'orm_default',
+                'configuration' => [
+                    'metadata_cache' => 'array',
+                    'query_cache' => 'array',
+                    'result_cache' => 'array',
+                ],
+            ],
+        ],
+    ],
 ];

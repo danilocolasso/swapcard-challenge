@@ -3,17 +3,17 @@
 namespace Email\Controller;
 
 use Email\Form\ProfileForm;
-use Laminas\Db\Adapter\Adapter;
+use Email\Service\ProfileService;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
 class EmailController extends AbstractActionController
 {
-    private $dbAdapter;
+    private ProfileService $profileService;
 
-    public function __construct(Adapter $dbAdapter)
+    public function __construct(ProfileService $profileService)
     {
-        $this->dbAdapter = $dbAdapter;
+        $this->profileService = $profileService;
     }
 
     public function indexAction()
@@ -30,7 +30,7 @@ class EmailController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                // Store
+                $this->profileService->saveProfile($data);
                 // Send
 
                 $this->flashMessenger()->addSuccessMessage('Email sent and information stored successfully.');

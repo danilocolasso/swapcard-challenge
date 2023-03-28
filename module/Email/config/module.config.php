@@ -2,6 +2,8 @@
 
 namespace Email;
 
+use Email\Controller\EmailController;
+use Email\Controller\EmailControllerFactory;
 use Laminas\Router\Http\Segment;
 
 return [
@@ -20,8 +22,8 @@ return [
         ],
     ],
     'controllers' => [
-        'invokables' => [
-            Controller\EmailController::class => Controller\EmailController::class,
+        'factories' => [
+            EmailController::class => EmailControllerFactory::class,
         ],
     ],
     'view_manager' => [
