@@ -1,4 +1,5 @@
 build:
+	cp .env.sample .env
 	docker-compose build
 	${MAKE} up
 	docker-compose exec app composer install
