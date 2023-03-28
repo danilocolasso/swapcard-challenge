@@ -4,6 +4,7 @@ namespace Email\Controller;
 
 use Email\Form\ProfileForm;
 use Email\Service\ProfileService;
+use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -16,28 +17,42 @@ class EmailController extends AbstractActionController
         $this->profileService = $profileService;
     }
 
-    public function indexAction()
+    public function indexAction(): ViewModel
+    {
+        return new ViewModel([
+            'form' => new ProfileForm(),
+        ]);
+    }
+
+    public function listAction(): ViewModel
+    {
+        $proifiles = $this->profileService->getAllProfiles();
+
+        return new ViewModel([
+            'profiles' => $proifiles,
+        ]);
+    }
+
+    public function createAction(): Response
     {
         $form = new ProfileForm();
         $request = $this->getRequest();
 
-        if ($request->isPost()) {
-            $form->setData(($request->getPost()));
+        $form->setData(($request->getPost()));
 
-            if ($form->isValid()) {
-                $data = $form->getData();
-
-                $this->profileService->saveProfile($data);
-                // Send
-
-                $this->flashMessenger()->addSuccessMessage('Email sent and information stored successfully.');
-
-                return $this->redirect()->toRoute('email');
-            }
+        if (!$request->isPost()) {
+            throw new \Exception('Method not allowed.', 405);
         }
 
-        return new ViewModel([
-            'form' => $form,
-        ]);
+        if (!$form->isValid()) {
+            $this->flashMessenger()->addErrorMessage('Invalid Form.');
+            return $this->redirect()->toRoute('email');
+        }
+
+        $data = $form->getData();
+        $this->profileService->saveProfile($data);
+        $this->flashMessenger()->addSuccessMessage('Email sent and information stored successfully.');
+
+        return $this->redirect()->toRoute('email');
     }
 }

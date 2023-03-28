@@ -19,4 +19,9 @@ class ProfileRepository extends EntityRepository
         $this->_em->persist($profile);
         $this->_em->flush();
     }
+
+    public function getAllProfiles(): array
+    {
+        return $this->findAll();
+    }
 }

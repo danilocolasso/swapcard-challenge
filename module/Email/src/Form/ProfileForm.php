@@ -2,6 +2,7 @@
 
 namespace Email\Form;
 
+use Laminas\Form\Element\Csrf;
 use Laminas\Form\Element\Email;
 use Laminas\Form\Element\Submit;
 use Laminas\Form\Element\Text;
@@ -13,6 +14,16 @@ class ProfileForm extends Form
     public function __construct($name = null, $options = [])
     {
         parent::__construct($name, $options);
+
+        $this->add([
+            'type' => Csrf::class,
+            'name' => 'csrf',
+            'options' => [
+                'csrf_options' => [
+                    'timeout' => 600,
+                ],
+            ],
+        ]);
 
         $this->add([
             'name' => 'name',
@@ -67,7 +78,7 @@ class ProfileForm extends Form
             'type' => Submit::class,
             'attributes' => [
                 'value' => 'Submit',
-                'class' => 'btn btn-primary',
+                'class' => 'btn btn-outline-primary btn-full',
             ],
         ]);
     }
