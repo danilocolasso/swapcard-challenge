@@ -16,9 +16,8 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 $moduleRoot = __DIR__ . '/../../module';
 
-function getEntityPaths($moduleRoot)
+function getModules($moduleRoot)
 {
-    $entityPaths = [];
     $modules = scandir($moduleRoot);
 
     foreach ($modules as $module) {
@@ -27,32 +26,47 @@ function getEntityPaths($moduleRoot)
         }
 
         $entityPath = $moduleRoot . '/' . $module . '/src/Entity';
+
         if (is_dir($entityPath)) {
-            $entityPaths[$module . '\Entity'] = 'default_driver';
+            yield $module;
         }
+    }
+}
+
+function getEntityPaths($moduleRoot)
+{
+    $entityPaths = [];
+
+    foreach (getModules($moduleRoot) as $module) {
+        $entityPaths[$module] = $moduleRoot . '/' . $module . '/src/Entity';;
     }
 
     return $entityPaths;
 }
 
+function getEntityDrivers($moduleRoot)
+{
+    $entityDrivers = [];
+
+    foreach (getModules($moduleRoot) as $module) {
+        $entityDrivers[$module . '\Entity'] = 'default_driver';
+    }
+
+    return $entityDrivers;
+}
+
 return [
-    'db' => [
-        'driver' => 'Pdo',
-        'dsn'    => 'mysql:dbname=mydatabase;host=db;charset=utf8',
-        'username' => 'myuser',
-        'password' => 'mypassword',
-    ],
     'doctrine' => [
         'connection' => [
             'orm_default' => [
                 'driverClass' => \Doctrine\DBAL\Driver\PDO\MySQL\Driver::class,
                 'params' => [
-                    'host' => 'db',
-                    'port' => '3306',
-                    'user' => 'myuser',
-                    'password' => 'mypassword',
-                    'dbname' => 'mydatabase',
-                    'charset' => 'utf8',
+                    'host' => getenv('DB_HOST'),
+                    'port' => getenv('DB_PORT'),
+                    'user' => getenv('DB_USER'),
+                    'password' => getenv('DB_PASSWORD'),
+                    'dbname' => getenv('DB_DATABASE'),
+                    'charset' => getenv('DB_CHARSET'),
                 ],
             ],
         ],
@@ -60,11 +74,12 @@ return [
             'default_driver' => [
                 'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                 'cache' => 'array',
+                'paths' => getEntityPaths($moduleRoot),
             ],
             'orm_default' => [
                 'drivers' => array_merge([
                     'default_driver' => 'default_driver',
-                ], getEntityPaths($moduleRoot)),
+                ], getEntityDrivers($moduleRoot)),
             ],
         ],
         'entity_manager' => [

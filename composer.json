@@ -26,7 +26,8 @@
         "doctrine/doctrine-orm-module": "^5.3",
         "ext-pdo": "*",
         "doctrine/migrations": "^3.6",
-        "laminas/laminas-cli": "^1.8"
+        "laminas/laminas-cli": "^1.8",
+        "vlucas/phpdotenv": "^5.5"
     },
     "autoload": {
         "classmap": [

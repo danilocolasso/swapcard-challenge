@@ -3,7 +3,6 @@
 namespace Email;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Email\Repository\ProfileRepository;
 use Email\Service\ProfileService;
 use Laminas\Router\Http\Segment;
 
