@@ -42,7 +42,7 @@ To run the tests, simply run the command
 ## TO DO
 - Use translations to avoid string messages on code
 - Use RabbitMQ to send e-mails asynchronously
-- Add more tests (just added basic tests)
+- Add more tests (only added basic tests)
 
 
 <h4 align="center">
